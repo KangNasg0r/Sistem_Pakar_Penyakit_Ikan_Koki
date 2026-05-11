@@ -6,3 +6,5 @@ password = 123
 
 1.Login <br>
 <img src="asset_tutor/login.png" width="50%"></img><br>
+2.Menu Utama <br>
+<img src="asset_tutor/menu_utama.png" width="50%"></img><br>
