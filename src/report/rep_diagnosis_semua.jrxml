@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f30947b2-de96-4929-825d-e5e2dbdbaa8f">
+	<property name="ireport.zoom" value="1.3310000000000044"/>
+	<property name="ireport.x" value="262"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="ADMIN" class="java.lang.String"/>
+	<parameter name="TGL_AWAL" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TGL_AKHIR" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PERIODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+    d.id_diagnosa,
+    d.nama_ikan,
+    d.tanggal_diagnosa,
+    d.hasil_diagnosa,
+    d.solusi,
+    GROUP_CONCAT(
+        CONCAT(dd.kode_gejala, ' - ', g.nama_gejala)
+        ORDER BY dd.kode_gejala ASC
+        SEPARATOR '\n'
+    ) AS fakta_gejala
+FROM diagnosa d
+LEFT JOIN diagnosa_detail dd ON d.id_diagnosa = dd.id_diagnosa
+LEFT JOIN gejala g ON dd.kode_gejala = g.kode_gejala
+WHERE d.tanggal_diagnosa BETWEEN $P{TGL_AWAL} AND $P{TGL_AKHIR}
+GROUP BY 
+    d.id_diagnosa,
+    d.nama_ikan,
+    d.tanggal_diagnosa,
+    d.hasil_diagnosa,
+    d.solusi
+ORDER BY d.tanggal_diagnosa DESC, d.id_diagnosa DESC]]>
+	</queryString>
+	<field name="id_diagnosa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_ikan" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tanggal_diagnosa" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hasil_diagnosa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="solusi" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fakta_gejala" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="144" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="679" height="42" forecolor="#000000" uuid="28bd0f88-7758-4d4c-9dce-093433085fd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Riwayat Diagnosis Ikan Mas Koki]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="80" width="679" height="34" uuid="a2d638d8-480f-4700-926f-679fadfc2dae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jl. Jatipadang Raya, gang menara 3 RT 004/04 no.58-B, Pasar Minggu, Jakarta Selatan Telp./WA. +62 813-8597-0988]]></text>
+			</staticText>
+			<image>
+				<reportElement x="681" y="0" width="120" height="114" uuid="654c7cb0-271c-4793-ae50-5c2675be33bb"/>
+				<imageExpression><![CDATA["../gambar/jp_farm_logo_3.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="42" width="679" height="38" forecolor="#000000" uuid="f4dd17a2-340f-4e5f-bcdf-7f477e334d6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JP Farm Jakarta]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="55" y="118" width="147" height="20" uuid="7b4cc0d0-28b5-49b1-af10-85f16a77d083"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PERIODE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="118" width="53" height="20" uuid="974df153-ea40-4489-933b-8a541adbcaa6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periode :]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="265" y="118" width="119" height="20" uuid="76d8db32-07d7-44bb-87dc-1fbec4907af6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TGL_AWAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="409" y="118" width="153" height="20" uuid="1022118b-d429-4e0e-a1be-eacc40d94367"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TGL_AKHIR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="227" y="118" width="38" height="20" uuid="aa32dd31-3a44-4ef4-905b-c2a6a722926e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hari :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="118" width="25" height="20" uuid="53e50e49-d90b-47d7-84ae-5c365a13a795"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[s.d.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="26" width="802" height="1" uuid="3a640594-5808-40a6-a3d8-22c7f0d523f3"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="3" width="802" height="1" uuid="03e28e73-6bb6-4ea7-8d5a-fa5095daab73"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="4" width="89" height="20" uuid="16089fcb-8f0d-4324-908e-9d2ac856652f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Diagnosa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="4" width="111" height="20" uuid="8a82ebb0-6098-41de-a487-09761cd0073a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Ikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="4" width="100" height="20" uuid="23a07b54-99b3-4d51-9170-84b3dd60f036"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="4" width="126" height="20" uuid="7331b242-5c71-47f9-a2b5-2bffcc7350e3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hasil Diagnosis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="598" y="4" width="203" height="20" uuid="fec8a074-ebb2-48e7-90df-71e28aadbb19"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solusi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="4" width="170" height="20" uuid="387128fb-1e06-441c-abcd-50647802472c"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fakta Gejala]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="2" y="0" width="797" height="25" uuid="f0ccc4a0-d360-46d9-8f07-3279b9eeaa7b"/>
+				<textField>
+					<reportElement x="0" y="5" width="72" height="20" uuid="e939fe5f-3e7a-48ef-865d-f313d45d4040"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id_diagnosa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="89" y="5" width="106" height="20" uuid="e093e2b4-7799-41b6-8c0c-e7cad93a30b5"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nama_ikan}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="EEEEE dd MMMMM yyyy">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="200" y="5" width="96" height="20" uuid="0145e77d-1b8d-4790-bf82-2116acd8a82f"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tanggal_diagnosa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="470" y="5" width="119" height="20" uuid="7f7b8718-fb7b-4fdd-824d-c2e15d539c27"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{hasil_diagnosa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="596" y="5" width="200" height="20" uuid="eb15bd2e-79c7-42c3-9c2a-ea9ee2ff6652"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{solusi}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="300" y="5" width="167" height="20" uuid="05b4b808-79b7-4e1f-aa3b-f09169962fbb"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fakta_gejala}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="758" y="6" width="40" height="20" forecolor="#000000" uuid="e2235476-65ad-4e1b-88b9-3cee568b444b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="678" y="6" width="80" height="20" forecolor="#000000" uuid="33521b96-dbb2-4e8b-b27a-9308cd325af3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" uuid="a4fb9271-5b5a-470e-ae50-4d14f89b2020"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="132">
+			<staticText>
+				<reportElement x="628" y="111" width="171" height="20" uuid="92b44757-dcba-4376-bc07-2bbc05090703"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Admin JP Farm Jakarta]]></text>
+			</staticText>
+			<line>
+				<reportElement x="627" y="110" width="172" height="1" uuid="f55bf595-0486-42ce-83d1-445191f030a6"/>
+			</line>
+			<staticText>
+				<reportElement x="628" y="31" width="171" height="20" uuid="601d8e40-aa9d-4dc4-af33-cfcaa546c4a8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dikeluarkan Oleh,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="628" y="7" width="40" height="20" uuid="f6ea233b-57a3-4cfb-ab97-fa7075c43f84"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jakarta,]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="668" y="7" width="131" height="20" forecolor="#000000" uuid="c9a3eac2-3120-4c67-be86-2732daafe582"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" uuid="8e3c3234-e4ed-4dc4-aad1-254b8b7cd2db"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="628" y="91" width="171" height="20" uuid="96392cd1-6b5f-4439-878f-96238da30397"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{ADMIN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
