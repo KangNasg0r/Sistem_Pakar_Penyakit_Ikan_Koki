@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 19, 2026 at 02:14 PM
+-- Generation Time: Jun 19, 2026 at 02:24 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.0.30
 
@@ -144,7 +144,7 @@ CREATE TABLE `hasil_kemungkinan_diagnosa` (
   `kode_penyakit` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_penyakit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `solusi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `hasil_kemungkinan_diagnosa`
