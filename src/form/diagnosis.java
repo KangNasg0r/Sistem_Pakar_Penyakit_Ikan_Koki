@@ -52,6 +52,7 @@ public class diagnosis extends javax.swing.JFrame {
         nama_ikan.requestFocus();
         id_diagnosa.setEditable(false);
         hasil.setEditable(false);
+        deskripsi.setEditable(false);
         solusi.setEditable(false);
     }
 
@@ -189,6 +190,10 @@ public class diagnosis extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         solusi = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        deskripsi = new javax.swing.JTextArea();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -402,13 +407,11 @@ public class diagnosis extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_gejala_rule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(diagnosis)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bbatal)
-                        .addComponent(bsimpan)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bsimpan, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(diagnosis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bbatal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -434,11 +437,27 @@ public class diagnosis extends javax.swing.JFrame {
         solusi.setBackground(java.awt.SystemColor.controlHighlight);
         solusi.setColumns(20);
         solusi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        solusi.setLineWrap(true);
         solusi.setRows(5);
+        solusi.setWrapStyleWord(true);
         jScrollPane1.setViewportView(solusi);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel13.setText("Penyakit");
+
+        deskripsi.setBackground(java.awt.SystemColor.controlHighlight);
+        deskripsi.setColumns(20);
+        deskripsi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        deskripsi.setLineWrap(true);
+        deskripsi.setRows(5);
+        deskripsi.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(deskripsi);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel14.setText("Deskripsi");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel15.setText(":");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -459,8 +478,13 @@ public class diagnosis extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel9)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel15)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -472,14 +496,20 @@ public class diagnosis extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel13))
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(hasil, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -544,17 +574,16 @@ public class diagnosis extends javax.swing.JFrame {
 
             Connection conn = new koneksi().connect();
 
-            String sql
-                    = "SELECT r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, "
-                    + "COUNT(rd.kode_gejala) AS jumlah_cocok, "
-                    + "(SELECT COUNT(*) FROM rule_detail WHERE kode_rule = r.kode_rule) AS jumlah_rule "
-                    + "FROM rule r "
-                    + "JOIN penyakit p ON r.kode_penyakit = p.kode_penyakit "
-                    + "JOIN rule_detail rd ON r.kode_rule = rd.kode_rule "
-                    + "WHERE rd.kode_gejala IN (" + gejalaDipilih + ") "
-                    + "GROUP BY r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi "
-                    + "HAVING jumlah_cocok = jumlah_rule "
-                    + "ORDER BY jumlah_rule DESC, r.kode_rule ASC";
+            String sql = "SELECT r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, p.deskripsi, "
+           + "COUNT(rd.kode_gejala) AS jumlah_cocok, "
+           + "(SELECT COUNT(*) FROM rule_detail WHERE kode_rule = r.kode_rule) AS jumlah_rule "
+           + "FROM rule r "
+           + "JOIN penyakit p ON r.kode_penyakit = p.kode_penyakit "
+           + "JOIN rule_detail rd ON r.kode_rule = rd.kode_rule "
+           + "WHERE rd.kode_gejala IN (" + gejalaDipilih + ") "
+           + "GROUP BY r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, p.deskripsi "
+           + "HAVING jumlah_cocok = jumlah_rule "
+           + "ORDER BY jumlah_rule DESC, r.kode_rule ASC";
 
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -566,6 +595,9 @@ public class diagnosis extends javax.swing.JFrame {
             String daftarSolusitunggal = "";
             String daftarSolusi = "";
             String kodePenyakitTunggal = "";
+            
+            String daftarDeskripsiTunggal = ""; 
+            String daftarDeskripsi = "";
 
             kodePenyakitHasil = "";
 
@@ -584,9 +616,10 @@ public class diagnosis extends javax.swing.JFrame {
                     String kodePenyakit = rs.getString("kode_penyakit");
                     String namaPenyakit = rs.getString("nama_penyakit");
                     String solusiPenyakit = rs.getString("solusi");
+                    String deskripsiPenyakit = rs.getString("deskripsi");
 
                     listKemungkinan.add(
-                            new KemungkinanDiagnosa(kodePenyakit, namaPenyakit, solusiPenyakit)
+                            new KemungkinanDiagnosa(kodePenyakit, namaPenyakit, solusiPenyakit, deskripsiPenyakit)
                     );
 
                     if (jumlahKemungkinan == 1) {
@@ -602,21 +635,30 @@ public class diagnosis extends javax.swing.JFrame {
                     daftarSolusi += jumlahKemungkinan + ". "
                             + namaPenyakit + "\n"
                             + solusiPenyakit + "\n\n";
+                    daftarDeskripsiTunggal += jumlahKemungkinan + ". "
+                            + deskripsiPenyakit + "\n\n";
+
+                    daftarDeskripsi += jumlahKemungkinan + ". "
+                            + namaPenyakit + "\n"
+                            + deskripsiPenyakit + "\n\n";
                 }
             }
 
             if (jumlahKemungkinan == 0) {
                 kodePenyakitHasil = "";
-                hasil.setText("Tidak ditemukan");
-                solusi.setText("Gejala yang dipilih belum memenuhi rule penyakit yang tersedia.");
+                hasil.setText("Penyakit tidak terdeteksi.");
+                solusi.setText("Tidak terdeteksi.");
+                deskripsi.setText("Tidak terdeteksi.");
             } else if (jumlahKemungkinan == 1) {
                 kodePenyakitHasil = kodePenyakitTunggal;
                 hasil.setText(daftarPenyakit.replace("1. ", "").trim());
                 solusi.setText(daftarSolusitunggal.replace("1. ", "").trim());
+                deskripsi.setText(daftarDeskripsiTunggal.replace("1. ", "").trim());
             } else {
                 kodePenyakitHasil = "";
                 hasil.setText("Lebih dari satu kemungkinan penyakit");
                 solusi.setText(daftarSolusi);
+                deskripsi.setText(daftarDeskripsi.trim());
             }
 
         } catch (Exception e) {
@@ -851,11 +893,13 @@ public class diagnosis extends javax.swing.JFrame {
         String kodePenyakit;
         String namaPenyakit;
         String solusiPenyakit;
+        String deskripsiPenyakit;
 
-        KemungkinanDiagnosa(String kodePenyakit, String namaPenyakit, String solusiPenyakit) {
+        KemungkinanDiagnosa(String kodePenyakit, String namaPenyakit, String solusiPenyakit, String deskripsiPenyakit) {
             this.kodePenyakit = kodePenyakit;
             this.namaPenyakit = namaPenyakit;
             this.solusiPenyakit = solusiPenyakit;
+            this.deskripsiPenyakit = deskripsiPenyakit;
         }
     }
 
@@ -899,6 +943,7 @@ public class diagnosis extends javax.swing.JFrame {
     private javax.swing.JButton bbatal;
     private javax.swing.JButton bkembali;
     private javax.swing.JButton bsimpan;
+    private javax.swing.JTextArea deskripsi;
     private javax.swing.JButton diagnosis;
     private javax.swing.JTextField hasil;
     private javax.swing.JTextField id_diagnosa;
@@ -907,6 +952,8 @@ public class diagnosis extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -920,6 +967,7 @@ public class diagnosis extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField nama_ikan;
     private javax.swing.JPanel panel_diagnosis;
     private javax.swing.JPanel panel_gejala_rule;

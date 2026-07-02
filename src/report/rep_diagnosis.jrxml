@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f30947b2-de96-4929-825d-e5e2dbdbaa8f">
 	<property name="ireport.zoom" value="1.3310000000000044"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="262"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -250,7 +250,7 @@ GROUP BY
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="3" width="802" height="1" uuid="8e3c3234-e4ed-4dc4-aad1-254b8b7cd2db"/>

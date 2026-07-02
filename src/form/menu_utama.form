@@ -112,12 +112,12 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menu_riwayat_diagnosisMouseClicked"/>
           </Events>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu4">
+        <Menu class="javax.swing.JMenu" name="Laporan_rekap">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/gambar/folder_page.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Laporan |"/>
+            <Property name="text" type="java.lang.String" value="Cetak Laporan |"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
@@ -152,6 +152,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Laporan Data Gejala"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lap_gejalaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
             </MenuItem>
@@ -165,6 +168,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Laporan Data Rule"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lap_ruleActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator5">
             </MenuItem>
@@ -181,6 +187,8 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lap_diagnosaActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator6">
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -280,7 +288,7 @@
                           <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="keluar_aplikasi" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
+                                  <Component id="logout" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
                                   <Component id="alamat_label" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
                                   <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -318,7 +326,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="menu_utama" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="keluar_aplikasi" min="-2" max="-2" attributes="0"/>
+                      <Component id="logout" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="alamat_label" min="-2" pref="142" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -396,7 +404,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="keluar_aplikasi">
+            <Component class="javax.swing.JButton" name="logout">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -404,11 +412,11 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="KELUAR APLIKASI"/>
+                <Property name="text" type="java.lang.String" value="LOGOUT"/>
                 <Property name="toolTipText" type="java.lang.String" value="Keluar dari aplikasi kasir"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keluar_aplikasiActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutActionPerformed"/>
               </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel4">

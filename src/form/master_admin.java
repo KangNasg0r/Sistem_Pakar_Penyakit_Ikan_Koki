@@ -126,6 +126,46 @@ public class master_admin extends javax.swing.JFrame {
     public javax.swing.JPanel getMainPanel() {
         return panel_gejala;
     }
+    
+  
+    private boolean verifikasiPassword(String idAdminDipilih) {
+        //Panel untuk pesan dan inputan
+        javax.swing.JPanel panelDialog = new javax.swing.JPanel();
+        panelDialog.setLayout(new javax.swing.BoxLayout(panelDialog, javax.swing.BoxLayout.Y_AXIS));
+        panelDialog.setPreferredSize(new java.awt.Dimension(350, 50)); 
+
+        javax.swing.JLabel pesanPeringatan = new javax.swing.JLabel("Masukkan password untuk akun " + idAdminDipilih + " saat ini:");
+        javax.swing.JPasswordField pf = new javax.swing.JPasswordField();
+        panelDialog.add(pesanPeringatan);
+        panelDialog.add(javax.swing.Box.createVerticalStrut(10));
+        panelDialog.add(pf);
+        int okCxl = JOptionPane.showConfirmDialog(null, panelDialog, 
+                "Verifikasi Keamanan Akun", 
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (okCxl == JOptionPane.OK_OPTION) {
+            String inputPassword = new String(pf.getPassword());
+            try {
+                String sql = "SELECT password FROM admin WHERE id_admin = ?";
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.setString(1, idAdminDipilih);
+                ResultSet rs = stat.executeQuery();
+                
+                if (rs.next()) {
+                    String dbPassword = rs.getString("password");
+                    if (inputPassword.equals(dbPassword)) {
+                        return true; // Password cocok
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password salah! Tindakan dibatalkan.", "Otorisasi Gagal", JOptionPane.ERROR_MESSAGE);
+                        return false; 
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan sistem saat verifikasi: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return false;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -270,17 +310,14 @@ public class master_admin extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nama_lengkap, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(password, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(id_admin, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(78, 78, 78)
-                        .addComponent(bkembali))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nama_lengkap))
-                        .addGap(198, 198, 198))))
+                        .addComponent(bkembali))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,6 +532,11 @@ public class master_admin extends javax.swing.JFrame {
         String idDipilih = id_admin.getText().trim();
         String idLogin = UserID.getidadmin();
 
+        // verif pass
+        if (!verifikasiPassword(idDipilih)) {
+            return;
+        }
+
         String sql = "UPDATE admin SET password=?, nama_lengkap=? WHERE id_admin=?";
 
         try {
@@ -526,7 +568,6 @@ public class master_admin extends javax.swing.JFrame {
     }//GEN-LAST:event_bubahActionPerformed
 
     private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhapusActionPerformed
-
         if (id_admin.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Pilih data admin yang ingin dihapus terlebih dahulu");
             return;
@@ -545,6 +586,11 @@ public class master_admin extends javax.swing.JFrame {
             return;
         }
 
+        // verif pass
+        if (!verifikasiPassword(idDipilih)) {
+            return; 
+        }
+     
         int ok = JOptionPane.showConfirmDialog(
                 null,
                 "Apakah Anda yakin ingin menghapus data admin ini?",

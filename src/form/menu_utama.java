@@ -27,6 +27,7 @@ import java.awt.GridLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -37,6 +38,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import java.util.Stack;
+import net.sf.jasperreports.engine.JRParameter;
 
 /**
  *
@@ -263,131 +265,6 @@ public class menu_utama extends javax.swing.JFrame {
         }
     }
 
-    private void tampilDialogCetakDiagnosa() {
-        javax.swing.JDialog dialog = new javax.swing.JDialog(
-                this,
-                "Cetak Laporan Diagnosa",
-                true
-        );
-
-        dialog.setSize(430, 190);
-        dialog.setLocationRelativeTo(this);
-        dialog.setLayout(new java.awt.BorderLayout(10, 10));
-
-        javax.swing.JPanel panelIsi = new javax.swing.JPanel(
-                new java.awt.GridLayout(2, 1, 5, 5)
-        );
-
-        javax.swing.JLabel label = new javax.swing.JLabel(
-                "Pilih Data Ikan yang Akan Dicetak:"
-        );
-
-        javax.swing.JComboBox<ItemDiagnosa> comboDiagnosa
-                = new javax.swing.JComboBox<>();
-
-        isiComboDiagnosa(comboDiagnosa);
-
-        panelIsi.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 5, 15));
-        panelIsi.add(label);
-        panelIsi.add(comboDiagnosa);
-
-        javax.swing.JPanel panelTombol = new javax.swing.JPanel(
-                new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT)
-        );
-
-        javax.swing.JButton btnCetak = new javax.swing.JButton("Cetak");
-        javax.swing.JButton btnBatal = new javax.swing.JButton("Batal");
-
-        panelTombol.add(btnCetak);
-        panelTombol.add(btnBatal);
-
-        dialog.add(panelIsi, java.awt.BorderLayout.CENTER);
-        dialog.add(panelTombol, java.awt.BorderLayout.SOUTH);
-
-        btnCetak.addActionListener(e -> {
-            if (comboDiagnosa.getSelectedItem() == null) {
-                javax.swing.JOptionPane.showMessageDialog(
-                        dialog,
-                        "Belum ada data diagnosa yang dapat dicetak."
-                );
-                return;
-            }
-
-            ItemDiagnosa item = (ItemDiagnosa) comboDiagnosa.getSelectedItem();
-
-            cetakLaporanDiagnosa(item.getIdDiagnosa());
-
-            dialog.dispose();
-        });
-
-        btnBatal.addActionListener(e -> dialog.dispose());
-
-        dialog.setVisible(true);
-    }
-
-    private void cetakLaporanDiagnosa(String idDiagnosa) {
-        try {
-            String loginId = UserID.getidadmin();
-            String loginadmin = "Tidak Diketahui";
-
-            try (java.sql.PreparedStatement nama = conn.prepareStatement(
-                    "SELECT nama_lengkap FROM admin WHERE id_admin = ?")) {
-
-                nama.setString(1, loginId);
-
-                try (java.sql.ResultSet rsNama = nama.executeQuery()) {
-                    if (rsNama.next()) {
-                        loginadmin = rsNama.getString("nama_lengkap");
-                    }
-                }
-            }
-
-            String reportPath = "./src/report/rep_diagnosis.jasper";
-
-            java.util.HashMap parameter = new java.util.HashMap();
-
-            parameter.put("ID_DIAGNOSA", idDiagnosa);
-            parameter.put("ADMIN", loginadmin);
-
-            parameter.put(
-                    net.sf.jasperreports.engine.JRParameter.REPORT_LOCALE,
-                    new java.util.Locale("id", "ID")
-            );
-
-            java.util.Locale.setDefault(new java.util.Locale("id", "ID"));
-
-            net.sf.jasperreports.engine.JasperPrint print
-                    = net.sf.jasperreports.engine.JasperFillManager.fillReport(
-                            reportPath,
-                            parameter,
-                            conn
-                    );
-
-            form.menu_utama menuUtama = form.menu_utama.getInstance();
-
-            if (menuUtama != null) {
-                javax.swing.JPanel reportPanel
-                        = new javax.swing.JPanel(new java.awt.BorderLayout());
-
-                net.sf.jasperreports.swing.JRViewer viewer
-                        = new net.sf.jasperreports.swing.JRViewer(print);
-
-                reportPanel.add(viewer, java.awt.BorderLayout.CENTER);
-
-                menuUtama.loadPanel(reportPanel);
-            } else {
-                net.sf.jasperreports.view.JasperViewer.viewReport(print, false);
-            }
-
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Gagal mencetak laporan diagnosa: " + e.getMessage()
-            );
-            e.printStackTrace();
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -402,7 +279,7 @@ public class menu_utama extends javax.swing.JFrame {
         alamat_label = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        keluar_aplikasi = new javax.swing.JButton();
+        logout = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         labeling4 = new javax.swing.JLabel();
         labeling5 = new javax.swing.JLabel();
@@ -442,7 +319,7 @@ public class menu_utama extends javax.swing.JFrame {
         menu_rule = new javax.swing.JMenuItem();
         menu_diagnosis = new javax.swing.JMenu();
         menu_riwayat_diagnosis = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        Laporan_rekap = new javax.swing.JMenu();
         lap_penyakit = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         lap_gejala = new javax.swing.JMenuItem();
@@ -450,6 +327,7 @@ public class menu_utama extends javax.swing.JFrame {
         lap_rule = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         lap_diagnosa = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
         menu_informasi = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -486,13 +364,13 @@ public class menu_utama extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        keluar_aplikasi.setBackground(new java.awt.Color(255, 255, 255));
-        keluar_aplikasi.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        keluar_aplikasi.setText("KELUAR APLIKASI");
-        keluar_aplikasi.setToolTipText("Keluar dari aplikasi kasir");
-        keluar_aplikasi.addActionListener(new java.awt.event.ActionListener() {
+        logout.setBackground(new java.awt.Color(255, 255, 255));
+        logout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        logout.setText("LOGOUT");
+        logout.setToolTipText("Keluar dari aplikasi kasir");
+        logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                keluar_aplikasiActionPerformed(evt);
+                logoutActionPerformed(evt);
             }
         });
 
@@ -624,7 +502,7 @@ public class menu_utama extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_kiriLayout.createSequentialGroup()
                         .addGroup(panel_kiriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(keluar_aplikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(alamat_label, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -653,7 +531,7 @@ public class menu_utama extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menu_utama)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(keluar_aplikasi)
+                .addComponent(logout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(alamat_label, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -899,9 +777,9 @@ public class menu_utama extends javax.swing.JFrame {
         menu_bar.add(menu_riwayat_diagnosis);
         menu_riwayat_diagnosis.getAccessibleContext().setAccessibleDescription("");
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/folder_page.png"))); // NOI18N
-        jMenu4.setText("Laporan |");
-        jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        Laporan_rekap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/folder_page.png"))); // NOI18N
+        Laporan_rekap.setText("Cetak Laporan |");
+        Laporan_rekap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         lap_penyakit.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lap_penyakit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/page_white_acrobat.png"))); // NOI18N
@@ -911,20 +789,30 @@ public class menu_utama extends javax.swing.JFrame {
                 lap_penyakitActionPerformed(evt);
             }
         });
-        jMenu4.add(lap_penyakit);
-        jMenu4.add(jSeparator3);
+        Laporan_rekap.add(lap_penyakit);
+        Laporan_rekap.add(jSeparator3);
 
         lap_gejala.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lap_gejala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/page_white_acrobat.png"))); // NOI18N
         lap_gejala.setText("Laporan Data Gejala");
-        jMenu4.add(lap_gejala);
-        jMenu4.add(jSeparator4);
+        lap_gejala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lap_gejalaActionPerformed(evt);
+            }
+        });
+        Laporan_rekap.add(lap_gejala);
+        Laporan_rekap.add(jSeparator4);
 
         lap_rule.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lap_rule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/page_white_acrobat.png"))); // NOI18N
         lap_rule.setText("Laporan Data Rule");
-        jMenu4.add(lap_rule);
-        jMenu4.add(jSeparator5);
+        lap_rule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lap_ruleActionPerformed(evt);
+            }
+        });
+        Laporan_rekap.add(lap_rule);
+        Laporan_rekap.add(jSeparator5);
 
         lap_diagnosa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lap_diagnosa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/page_white_acrobat.png"))); // NOI18N
@@ -934,10 +822,11 @@ public class menu_utama extends javax.swing.JFrame {
                 lap_diagnosaActionPerformed(evt);
             }
         });
-        jMenu4.add(lap_diagnosa);
+        Laporan_rekap.add(lap_diagnosa);
+        Laporan_rekap.add(jSeparator6);
 
-        menu_bar.add(jMenu4);
-        jMenu4.getAccessibleContext().setAccessibleDescription("");
+        menu_bar.add(Laporan_rekap);
+        Laporan_rekap.getAccessibleContext().setAccessibleDescription("");
 
         menu_informasi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/information.png"))); // NOI18N
         menu_informasi.setText("Informasi |");
@@ -965,12 +854,12 @@ public class menu_utama extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void keluar_aplikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keluar_aplikasiActionPerformed
-        int konfirmasi_keluarapp = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin keluar?", "Konfirmasi Keluar", JOptionPane.YES_NO_OPTION);
-        if (konfirmasi_keluarapp == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_keluar_aplikasiActionPerformed
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        this.dispose();
+        login keluarakun = new login();
+        keluarakun.setVisible(true);
+        keluarakun.setLocationRelativeTo(null);
+    }//GEN-LAST:event_logoutActionPerformed
 
     private void menu_penyakitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_penyakitActionPerformed
         loadPanel(new master_penyakit().getMainPanel());
@@ -1068,7 +957,82 @@ public class menu_utama extends javax.swing.JFrame {
     }//GEN-LAST:event_lap_penyakitActionPerformed
 
     private void lap_diagnosaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lap_diagnosaActionPerformed
-        tampilDialogCetakDiagnosa();
+        try {
+            String[] pilihan = {
+                "7 Hari Terakhir",
+                "1 Bulan Terakhir",
+                "1 Tahun Terakhir"
+            };
+            String pilih = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Pilih periode laporan diagnosis:",
+                    "Cetak Riwayat Diagnosis",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    pilihan,
+                    pilihan[0]
+            );
+
+            if (pilih == null) {
+                return;
+            }
+
+            String loginId = UserID.getidadmin();
+            String loginadmin = "Tidak Diketahui";
+            try (PreparedStatement nama = conn.prepareStatement(
+                    "SELECT nama_lengkap FROM admin WHERE id_admin = ?"
+            )) {
+                nama.setString(1, loginId);
+                try (ResultSet rsNama = nama.executeQuery()) {
+                    if (rsNama.next()) {
+                        loginadmin = rsNama.getString("nama_lengkap");
+                    }
+                }
+            }
+
+            Calendar cal = Calendar.getInstance();
+            java.sql.Date tanggalAkhir = new java.sql.Date(System.currentTimeMillis());
+            if (pilih.equals("7 Hari Terakhir")) {
+                cal.add(Calendar.DAY_OF_MONTH, -6);
+            } else if (pilih.equals("1 Bulan Terakhir")) {
+                cal.add(Calendar.MONTH, -1);
+            } else if (pilih.equals("1 Tahun Terakhir")) {
+                cal.add(Calendar.YEAR, -1);
+            }
+            java.sql.Date tanggalAwal = new java.sql.Date(cal.getTimeInMillis());
+
+            String reportPath = "./src/report/rep_diagnosis_semua.jasper";
+            HashMap parameter = new HashMap();
+            parameter.put("ADMIN", loginadmin);
+            parameter.put("TGL_AWAL", tanggalAwal);
+            parameter.put("TGL_AKHIR", tanggalAkhir);
+            parameter.put("PERIODE", pilih);
+            parameter.put(JRParameter.REPORT_LOCALE, new Locale("id", "ID"));
+
+            Locale.setDefault(new Locale("id", "ID"));
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, conn);
+
+            if (print.getPages().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Tidak Ada Data Yang Tercatat Pada Periode Yang Dipilih",
+                        "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            form.menu_utama menuUtama = form.menu_utama.getInstance();
+            if (menuUtama != null) {
+                javax.swing.JPanel reportPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+                net.sf.jasperreports.swing.JRViewer viewer = new net.sf.jasperreports.swing.JRViewer(print);
+                reportPanel.add(viewer, java.awt.BorderLayout.CENTER);
+                menuUtama.loadPanel(reportPanel);
+            } else {
+                JasperViewer.viewReport(print, false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mencetak report: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_lap_diagnosaActionPerformed
 
     private void menu_utamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_utamaActionPerformed
@@ -1077,6 +1041,78 @@ public class menu_utama extends javax.swing.JFrame {
             menuUtama.tampilHalamanAwal();
         }
     }//GEN-LAST:event_menu_utamaActionPerformed
+
+    private void lap_gejalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lap_gejalaActionPerformed
+        try {
+            String loginId = UserID.getidadmin();
+            String loginadmin = "Tidak Diketahui";
+
+            try (PreparedStatement nama = conn.prepareStatement("SELECT nama_lengkap FROM admin WHERE id_admin = ?")) {
+                nama.setString(1, loginId);
+                try (ResultSet rsNama = nama.executeQuery()) {
+                    if (rsNama.next()) {
+                        loginadmin = rsNama.getString("nama_lengkap");
+                    }
+                }
+            }
+
+            String reportPath = "./src/report/rep_gejala.jasper";
+            HashMap parameter = new HashMap();
+            parameter.put("ADMIN", loginadmin);
+
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, conn);
+
+            form.menu_utama menuUtama = form.menu_utama.getInstance();
+            if (menuUtama != null) {
+                javax.swing.JPanel reportPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+                net.sf.jasperreports.swing.JRViewer viewer = new net.sf.jasperreports.swing.JRViewer(print);
+                reportPanel.add(viewer, java.awt.BorderLayout.CENTER);
+                menuUtama.loadPanel(reportPanel);
+            } else {
+                JasperViewer.viewReport(print, false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mencetak report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_lap_gejalaActionPerformed
+
+    private void lap_ruleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lap_ruleActionPerformed
+        try {
+            String loginId = UserID.getidadmin();
+            String loginadmin = "Tidak Diketahui";
+
+            try (PreparedStatement nama = conn.prepareStatement("SELECT nama_lengkap FROM admin WHERE id_admin = ?")) {
+                nama.setString(1, loginId);
+                try (ResultSet rsNama = nama.executeQuery()) {
+                    if (rsNama.next()) {
+                        loginadmin = rsNama.getString("nama_lengkap");
+                    }
+                }
+            }
+
+            String reportPath = "./src/report/rep_rule.jasper";
+            HashMap parameter = new HashMap();
+            parameter.put("ADMIN", loginadmin);
+
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, conn);
+
+            form.menu_utama menuUtama = form.menu_utama.getInstance();
+            if (menuUtama != null) {
+                javax.swing.JPanel reportPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+                net.sf.jasperreports.swing.JRViewer viewer = new net.sf.jasperreports.swing.JRViewer(print);
+                reportPanel.add(viewer, java.awt.BorderLayout.CENTER);
+                menuUtama.loadPanel(reportPanel);
+            } else {
+                JasperViewer.viewReport(print, false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mencetak report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_lap_ruleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1134,6 +1170,7 @@ public class menu_utama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Laporan_rekap;
     private javax.swing.JLabel alamat_label;
     private javax.swing.JLabel angka_diagnosis;
     private javax.swing.JLabel angka_gejala;
@@ -1150,7 +1187,6 @@ public class menu_utama extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1160,8 +1196,8 @@ public class menu_utama extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JLabel jam_label;
-    private javax.swing.JButton keluar_aplikasi;
     private javax.swing.JLabel label_id;
     private javax.swing.JLabel label_nama;
     private javax.swing.JLabel labeling4;
@@ -1172,6 +1208,7 @@ public class menu_utama extends javax.swing.JFrame {
     private javax.swing.JMenuItem lap_gejala;
     private javax.swing.JMenuItem lap_penyakit;
     private javax.swing.JMenuItem lap_rule;
+    private javax.swing.JButton logout;
     private javax.swing.JMenuBar menu_bar;
     private javax.swing.JMenu menu_diagnosis;
     private javax.swing.JMenuItem menu_gejala;

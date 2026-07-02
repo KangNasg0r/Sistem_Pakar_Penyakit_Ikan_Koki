@@ -226,12 +226,16 @@ public class master_penyakit extends javax.swing.JFrame {
 
         deskripsi.setColumns(20);
         deskripsi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        deskripsi.setLineWrap(true);
         deskripsi.setRows(5);
+        deskripsi.setWrapStyleWord(true);
         jScrollPane2.setViewportView(deskripsi);
 
         solusi.setColumns(20);
         solusi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        solusi.setLineWrap(true);
         solusi.setRows(5);
+        solusi.setWrapStyleWord(true);
         jScrollPane3.setViewportView(solusi);
 
         bkembali.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -291,12 +295,12 @@ public class master_penyakit extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bsimpan)
                     .addComponent(bubah)
@@ -385,7 +389,7 @@ public class master_penyakit extends javax.swing.JFrame {
                     .addComponent(cari_penyakit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bprint_penyakit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

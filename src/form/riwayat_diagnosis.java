@@ -543,7 +543,9 @@ public class riwayat_diagnosis extends javax.swing.JFrame {
         solusi.setBackground(java.awt.SystemColor.controlHighlight);
         solusi.setColumns(20);
         solusi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        solusi.setLineWrap(true);
         solusi.setRows(5);
+        solusi.setWrapStyleWord(true);
         jScrollPane1.setViewportView(solusi);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
