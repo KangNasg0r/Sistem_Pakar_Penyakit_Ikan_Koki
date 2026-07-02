@@ -226,7 +226,7 @@ ORDER BY
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="3" width="555" height="1" uuid="8e3c3234-e4ed-4dc4-aad1-254b8b7cd2db"/>
