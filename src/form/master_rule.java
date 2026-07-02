@@ -69,32 +69,7 @@ public class master_rule extends javax.swing.JFrame {
         }
     }
 
-    protected void tampilPenyakit() {
-        try {
-            combobox_penyakit.removeAllItems();
-            combobox_penyakit.addItem("-- Pilih Penyakit --");
-
-            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
-                    + "FROM penyakit p "
-                    + "WHERE p.kode_penyakit NOT IN ("
-                    + "SELECT r.kode_penyakit FROM `rule` r"
-                    + ") "
-                    + "ORDER BY p.kode_penyakit ASC";
-
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                String kode = rs.getString("kode_penyakit");
-                String nama = rs.getString("nama_penyakit");
-
-                combobox_penyakit.addItem(kode + " - " + nama);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
-        }
-    }
+    
 
     protected void tampilDaftarGejala() {
         Object[] kolom = {"Kode Gejala", "Nama Gejala"};
@@ -238,7 +213,59 @@ public class master_rule extends javax.swing.JFrame {
         }
     }
 
-    protected void tampilPenyakitEdit(String kodePenyakitAktif) {
+    /*protected void tampilPenyakit() {
+        try {
+            combobox_penyakit.removeAllItems();
+            combobox_penyakit.addItem("-- Pilih Penyakit --");
+
+            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
+                    + "FROM penyakit p "
+                    + "WHERE p.kode_penyakit NOT IN ("
+                    + "SELECT r.kode_penyakit FROM `rule` r"
+                    + ") "
+                    + "ORDER BY p.kode_penyakit ASC";
+
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                String kode = rs.getString("kode_penyakit");
+                String nama = rs.getString("nama_penyakit");
+
+                combobox_penyakit.addItem(kode + " - " + nama);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
+        }
+    }*/
+    
+    protected void tampilPenyakit() {
+        try {
+            combobox_penyakit.removeAllItems();
+            combobox_penyakit.addItem("-- Pilih Penyakit --");
+
+            // Query diubah: Menampilkan semua penyakit tanpa ada yang disembunyikan
+            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
+                       + "FROM penyakit p "
+                       + "ORDER BY p.kode_penyakit ASC";
+
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                String kode = rs.getString("kode_penyakit");
+                String nama = rs.getString("nama_penyakit");
+
+                combobox_penyakit.addItem(kode + " - " + nama);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
+        }
+    }
+    
+    /*protected void tampilPenyakitEdit(String kodePenyakitAktif) {
         try {
             combobox_penyakit.removeAllItems();
             combobox_penyakit.addItem("-- Pilih Penyakit --");
@@ -253,6 +280,31 @@ public class master_rule extends javax.swing.JFrame {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, kodePenyakitAktif);
             ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String kode = rs.getString("kode_penyakit");
+                String nama = rs.getString("nama_penyakit");
+
+                combobox_penyakit.addItem(kode + " - " + nama);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data penyakit edit gagal ditampilkan: " + e);
+        }
+    }*/
+    
+    protected void tampilPenyakitEdit(String kodePenyakitAktif) {
+        try {
+            combobox_penyakit.removeAllItems();
+            combobox_penyakit.addItem("-- Pilih Penyakit --");
+            
+            // Query diubah: Menampilkan semua penyakit tanpa ada yang disembunyikan
+            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
+                       + "FROM penyakit p "
+                       + "ORDER BY p.kode_penyakit ASC";
+
+            // Menggunakan Statement biasa karena tanda "?" pada query sudah dihapus
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
             while (rs.next()) {
                 String kode = rs.getString("kode_penyakit");
                 String nama = rs.getString("nama_penyakit");
@@ -955,7 +1007,7 @@ public class master_rule extends javax.swing.JFrame {
         String kodePenyakit = penyakitDipilih.substring(0, penyakitDipilih.indexOf(" - "));
 
         try {
-            String cekSql = "SELECT kode_rule FROM `rule` WHERE kode_penyakit = ?";
+            /*String cekSql = "SELECT kode_rule FROM `rule` WHERE kode_penyakit = ?";
             PreparedStatement cekPst = conn.prepareStatement(cekSql);
             cekPst.setString(1, kodePenyakit);
             ResultSet cekRs = cekPst.executeQuery();
@@ -965,7 +1017,7 @@ public class master_rule extends javax.swing.JFrame {
                 tampilPenyakit();
                 combobox_penyakit.setSelectedIndex(0);
                 return;
-            }
+            }*/
 
             conn.setAutoCommit(false);
             String sqlRule = "INSERT INTO `rule` (kode_rule, kode_penyakit) VALUES (?, ?)";
