@@ -125,14 +125,14 @@
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="223" y="0" width="133" height="20" uuid="d3e7ee5a-36cb-40c2-9ae2-74113b339e3a"/>
-					<textElement>
+					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{deskripsi}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="370" y="0" width="183" height="20" uuid="cb5ec808-6282-4e0d-ac45-bf569555b52d"/>
-					<textElement>
+					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{solusi}]]></textFieldExpression>

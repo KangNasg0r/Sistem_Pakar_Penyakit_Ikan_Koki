@@ -575,73 +575,79 @@ public class diagnosis extends javax.swing.JFrame {
             Connection conn = new koneksi().connect();
 
             String sql = "SELECT r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, p.deskripsi, "
-           + "COUNT(rd.kode_gejala) AS jumlah_cocok, "
-           + "(SELECT COUNT(*) FROM rule_detail WHERE kode_rule = r.kode_rule) AS jumlah_rule "
-           + "FROM rule r "
-           + "JOIN penyakit p ON r.kode_penyakit = p.kode_penyakit "
-           + "JOIN rule_detail rd ON r.kode_rule = rd.kode_rule "
-           + "WHERE rd.kode_gejala IN (" + gejalaDipilih + ") "
-           + "GROUP BY r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, p.deskripsi "
-           + "HAVING jumlah_cocok = jumlah_rule "
-           + "ORDER BY jumlah_rule DESC, r.kode_rule ASC";
+                    + "COUNT(rd.kode_gejala) AS jumlah_cocok, "
+                    + "(SELECT COUNT(*) FROM rule_detail WHERE kode_rule = r.kode_rule) AS jumlah_rule "
+                    + "FROM rule r "
+                    + "JOIN penyakit p ON r.kode_penyakit = p.kode_penyakit "
+                    + "JOIN rule_detail rd ON r.kode_rule = rd.kode_rule "
+                    + "WHERE rd.kode_gejala IN (" + gejalaDipilih + ") "
+                    + "GROUP BY r.kode_rule, p.kode_penyakit, p.nama_penyakit, p.solusi, p.deskripsi "
+                    + "HAVING jumlah_cocok = jumlah_rule "
+                    + "ORDER BY jumlah_rule DESC, r.kode_rule ASC";
 
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
-            int jumlahRuleTertinggi = 0;
+            //int jumlahRuleTertinggi = 0;
             int jumlahKemungkinan = 0;
 
             String daftarPenyakit = "";
             String daftarSolusitunggal = "";
             String daftarSolusi = "";
             String kodePenyakitTunggal = "";
-            
-            String daftarDeskripsiTunggal = ""; 
+
+            String daftarDeskripsiTunggal = "";
             String daftarDeskripsi = "";
 
             kodePenyakitHasil = "";
+            //String kodePenyakitHasil = "";
+            java.util.ArrayList<String> penyakitDitemukan = new java.util.ArrayList<>();
 
             while (rs.next()) {
-                int jumlahRule = rs.getInt("jumlah_rule");
-
-                // Rule pertama adalah rule dengan jumlah gejala terbanyak
+                /*int jumlahRule = rs.getInt("jumlah_rule");
                 if (jumlahRuleTertinggi == 0) {
                     jumlahRuleTertinggi = jumlahRule;
                 }
-
                 // Ambil hanya rule yang jumlah gejalanya sama dengan rule tertinggi
-                if (jumlahRule == jumlahRuleTertinggi) {
-                    jumlahKemungkinan++;
-
+                if (jumlahRule == jumlahRuleTertinggi) {*/
                     String kodePenyakit = rs.getString("kode_penyakit");
-                    String namaPenyakit = rs.getString("nama_penyakit");
-                    String solusiPenyakit = rs.getString("solusi");
-                    String deskripsiPenyakit = rs.getString("deskripsi");
 
-                    listKemungkinan.add(
-                            new KemungkinanDiagnosa(kodePenyakit, namaPenyakit, solusiPenyakit, deskripsiPenyakit)
-                    );
+                    //Memastikan penyakit belum dihitung
+                    if (!penyakitDitemukan.contains(kodePenyakit)) {
+                        penyakitDitemukan.add(kodePenyakit); // Tandai penyakit ini sudah diproses
 
-                    if (jumlahKemungkinan == 1) {
-                        kodePenyakitTunggal = kodePenyakit;
+                        jumlahKemungkinan++;
+
+                        String namaPenyakit = rs.getString("nama_penyakit");
+                        String solusiPenyakit = rs.getString("solusi");
+                        String deskripsiPenyakit = rs.getString("deskripsi");
+
+                        listKemungkinan.add(
+                                new KemungkinanDiagnosa(kodePenyakit, namaPenyakit, solusiPenyakit, deskripsiPenyakit)
+                        );
+
+                        if (jumlahKemungkinan == 1) {
+                            kodePenyakitTunggal = kodePenyakit;
+                        }
+
+                        daftarPenyakit += jumlahKemungkinan + ". "
+                                + namaPenyakit + "\n";
+
+                        daftarSolusitunggal += jumlahKemungkinan + ". "
+                                + solusiPenyakit + "\n\n";
+
+                        daftarSolusi += jumlahKemungkinan + ". "
+                                + namaPenyakit + "\n"
+                                + solusiPenyakit + "\n\n";
+
+                        daftarDeskripsiTunggal += jumlahKemungkinan + ". "
+                                + deskripsiPenyakit + "\n\n";
+
+                        daftarDeskripsi += jumlahKemungkinan + ". "
+                                + namaPenyakit + "\n"
+                                + deskripsiPenyakit + "\n\n";
                     }
-
-                    daftarPenyakit += jumlahKemungkinan + ". "
-                            + namaPenyakit + "\n";
-
-                    daftarSolusitunggal += jumlahKemungkinan + ". "
-                            + solusiPenyakit + "\n\n";
-                    
-                    daftarSolusi += jumlahKemungkinan + ". "
-                            + namaPenyakit + "\n"
-                            + solusiPenyakit + "\n\n";
-                    daftarDeskripsiTunggal += jumlahKemungkinan + ". "
-                            + deskripsiPenyakit + "\n\n";
-
-                    daftarDeskripsi += jumlahKemungkinan + ". "
-                            + namaPenyakit + "\n"
-                            + deskripsiPenyakit + "\n\n";
-                }
+                
             }
 
             if (jumlahKemungkinan == 0) {

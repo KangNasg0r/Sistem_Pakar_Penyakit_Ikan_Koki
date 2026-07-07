@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f30947b2-de96-4929-825d-e5e2dbdbaa8f">
 	<property name="ireport.zoom" value="1.3310000000000044"/>
-	<property name="ireport.x" value="262"/>
+	<property name="ireport.x" value="260"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -107,7 +107,7 @@ GROUP BY
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ID Diagnosa]]></text>
+				<text><![CDATA[ID Diagnosis]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="91" y="4" width="111" height="20" uuid="8a82ebb0-6098-41de-a487-09761cd0073a"/>
@@ -178,9 +178,9 @@ GROUP BY
 					</textElement>
 					<textFieldExpression><![CDATA[$F{hasil_diagnosa}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="596" y="5" width="200" height="20" uuid="eb15bd2e-79c7-42c3-9c2a-ea9ee2ff6652"/>
-					<textElement>
+				<textField isStretchWithOverflow="true" pattern="">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="596" y="5" width="200" height="20" uuid="eb15bd2e-79c7-42c3-9c2a-ea9ee2ff6652"/>
+					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{solusi}]]></textFieldExpression>

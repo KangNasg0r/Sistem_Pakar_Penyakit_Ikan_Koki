@@ -101,7 +101,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="215" y="0" width="338" height="20" uuid="23878674-c480-491d-95b6-5adeaa705f8e"/>
-					<textElement>
+					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{nama_lengkap}]]></textFieldExpression>
