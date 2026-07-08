@@ -36,6 +36,7 @@ public class diagnosis extends javax.swing.JFrame {
     private DefaultTableModel model;
     private String kodePenyakitHasil = "";
     private ArrayList<KemungkinanDiagnosa> listKemungkinan = new ArrayList<>();
+    private java.util.HashSet<String> gejalaTerpilih = new java.util.HashSet<>();
 
     /**
      * Creates new form data_penyakit
@@ -89,7 +90,7 @@ public class diagnosis extends javax.swing.JFrame {
         }
     }
 
-    private void tampilGejala() {
+/*    private void tampilGejala() {
         model = new DefaultTableModel(
                 new Object[]{"Pilih", "Kode Gejala", "Nama Gejala"}, 0
         ) {
@@ -100,13 +101,11 @@ public class diagnosis extends javax.swing.JFrame {
                 }
                 return String.class;
             }
-
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 0;
             }
         };
-
         try {
             Connection conn = new koneksi().connect();
             String cari = txtcari.getText();
@@ -114,7 +113,6 @@ public class diagnosis extends javax.swing.JFrame {
                     + "WHERE kode_gejala LIKE ? "
                     + "OR nama_gejala LIKE ? "
                     + "ORDER BY kode_gejala ASC";
-
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, "%" + cari + "%");
             pst.setString(2, "%" + cari + "%");
@@ -126,7 +124,6 @@ public class diagnosis extends javax.swing.JFrame {
                     rs.getString("nama_gejala")
                 });
             }
-
             tabel_pilih_gejala.setModel(model);
             tabel_pilih_gejala.setRowHeight(35);
             tabel_pilih_gejala.getTableHeader().setFont(
@@ -140,16 +137,86 @@ public class diagnosis extends javax.swing.JFrame {
             tabel_pilih_gejala.getColumnModel().getColumn(1).setCellRenderer(renderer);
             tabel_pilih_gejala.getColumnModel().getColumn(2).setCellRenderer(renderer);
             tabel_pilih_gejala.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal menampilkan gejala: " + e.getMessage());
+        }
+    }*/
 
+    private void tampilGejala() {
+        if (tabel_pilih_gejala.getModel() != null && tabel_pilih_gejala.getRowCount() > 0) {
+            for (int i = 0; i < tabel_pilih_gejala.getRowCount(); i++) {
+                Object objCek = tabel_pilih_gejala.getValueAt(i, 0);
+                Object objKode = tabel_pilih_gejala.getValueAt(i, 1);
+                if (objKode != null) { 
+                    String kode = objKode.toString();
+                    Boolean cek = (Boolean) objCek;
+                    
+                    if (cek != null && cek) {
+                        gejalaTerpilih.add(kode); 
+                    } else {
+                        gejalaTerpilih.remove(kode); 
+                    }
+                }
+            }
+        }
+        model = new DefaultTableModel(
+                new Object[]{"Pilih", "Kode Gejala", "Nama Gejala"}, 0
+        ) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0) {
+                    return Boolean.class;
+                }
+                return String.class;
+            }
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 0;
+            }
+        };
+        try {
+            Connection conn = new koneksi().connect();
+            String cari = txtcari.getText();
+            String sql = "SELECT kode_gejala, nama_gejala FROM gejala "
+                    + "WHERE kode_gejala LIKE ? "
+                    + "OR nama_gejala LIKE ? "
+                    + "ORDER BY kode_gejala ASC";
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + cari + "%");
+            pst.setString(2, "%" + cari + "%");
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                String kodeGejala = rs.getString("kode_gejala");
+                boolean isSelected = gejalaTerpilih.contains(kodeGejala); 
+                model.addRow(new Object[]{
+                    isSelected,
+                    kodeGejala,
+                    rs.getString("nama_gejala")
+                });
+            }
+            tabel_pilih_gejala.setModel(model);
+            tabel_pilih_gejala.setRowHeight(35);
+            tabel_pilih_gejala.getTableHeader().setFont(
+                    new java.awt.Font("Tahoma", java.awt.Font.BOLD, 18)
+            );
+            tabel_pilih_gejala.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tabel_pilih_gejala.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel_pilih_gejala.getColumnModel().getColumn(1).setPreferredWidth(60);
+            tabel_pilih_gejala.getColumnModel().getColumn(2).setPreferredWidth(650);
+            TextAreaRenderer renderer = new TextAreaRenderer();
+            tabel_pilih_gejala.getColumnModel().getColumn(1).setCellRenderer(renderer);
+            tabel_pilih_gejala.getColumnModel().getColumn(2).setCellRenderer(renderer);
+            tabel_pilih_gejala.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal menampilkan gejala: " + e.getMessage());
         }
     }
-
+    
     public javax.swing.JPanel getMainPanel() {
         return panel_diagnosis;
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -587,7 +654,6 @@ public class diagnosis extends javax.swing.JFrame {
 
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-
             //int jumlahRuleTertinggi = 0;
             int jumlahKemungkinan = 0;
 
@@ -831,6 +897,7 @@ public class diagnosis extends javax.swing.JFrame {
 
         kodePenyakitHasil = "";
         listKemungkinan.clear();
+        gejalaTerpilih.clear();
 
         for (int i = 0; i < tabel_pilih_gejala.getRowCount(); i++) {
             tabel_pilih_gejala.setValueAt(false, i, 0);

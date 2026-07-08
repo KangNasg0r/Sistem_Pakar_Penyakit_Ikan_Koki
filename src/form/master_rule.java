@@ -244,22 +244,16 @@ public class master_rule extends javax.swing.JFrame {
         try {
             combobox_penyakit.removeAllItems();
             combobox_penyakit.addItem("-- Pilih Penyakit --");
-
-            // Query diubah: Menampilkan semua penyakit tanpa ada yang disembunyikan
             String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
                        + "FROM penyakit p "
                        + "ORDER BY p.kode_penyakit ASC";
-
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 String kode = rs.getString("kode_penyakit");
                 String nama = rs.getString("nama_penyakit");
-
                 combobox_penyakit.addItem(kode + " - " + nama);
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
         }
@@ -295,16 +289,12 @@ public class master_rule extends javax.swing.JFrame {
         try {
             combobox_penyakit.removeAllItems();
             combobox_penyakit.addItem("-- Pilih Penyakit --");
-            
-            // Query diubah: Menampilkan semua penyakit tanpa ada yang disembunyikan
+
             String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
                        + "FROM penyakit p "
                        + "ORDER BY p.kode_penyakit ASC";
-
-            // Menggunakan Statement biasa karena tanda "?" pada query sudah dihapus
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            
             while (rs.next()) {
                 String kode = rs.getString("kode_penyakit");
                 String nama = rs.getString("nama_penyakit");
