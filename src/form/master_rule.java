@@ -212,33 +212,6 @@ public class master_rule extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Detail rule gagal ditampilkan: " + e);
         }
     }
-
-    /*protected void tampilPenyakit() {
-        try {
-            combobox_penyakit.removeAllItems();
-            combobox_penyakit.addItem("-- Pilih Penyakit --");
-
-            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
-                    + "FROM penyakit p "
-                    + "WHERE p.kode_penyakit NOT IN ("
-                    + "SELECT r.kode_penyakit FROM `rule` r"
-                    + ") "
-                    + "ORDER BY p.kode_penyakit ASC";
-
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                String kode = rs.getString("kode_penyakit");
-                String nama = rs.getString("nama_penyakit");
-
-                combobox_penyakit.addItem(kode + " - " + nama);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
-        }
-    }*/
     
     protected void tampilPenyakit() {
         try {
@@ -258,32 +231,6 @@ public class master_rule extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Data penyakit gagal ditampilkan: " + e);
         }
     }
-    
-    /*protected void tampilPenyakitEdit(String kodePenyakitAktif) {
-        try {
-            combobox_penyakit.removeAllItems();
-            combobox_penyakit.addItem("-- Pilih Penyakit --");
-            String sql = "SELECT p.kode_penyakit, p.nama_penyakit "
-                    + "FROM penyakit p "
-                    + "WHERE p.kode_penyakit NOT IN ("
-                    + "SELECT r.kode_penyakit FROM `rule` r "
-                    + "WHERE r.kode_penyakit <> ?"
-                    + ") "
-                    + "ORDER BY p.kode_penyakit ASC";
-
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, kodePenyakitAktif);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                String kode = rs.getString("kode_penyakit");
-                String nama = rs.getString("nama_penyakit");
-
-                combobox_penyakit.addItem(kode + " - " + nama);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data penyakit edit gagal ditampilkan: " + e);
-        }
-    }*/
     
     protected void tampilPenyakitEdit(String kodePenyakitAktif) {
         try {
