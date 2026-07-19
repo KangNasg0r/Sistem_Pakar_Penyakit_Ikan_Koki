@@ -52,6 +52,7 @@ public class riwayat_diagnosis extends javax.swing.JFrame {
         nama_ikan.setEditable(false);
         id_diagnosa.setEditable(false);
         solusi.setEditable(false);
+        deskripsi.setEditable(false);
         jXDatePicker1.setEditable(false);
     }
 
@@ -59,6 +60,7 @@ public class riwayat_diagnosis extends javax.swing.JFrame {
         id_diagnosa.setText("");
         nama_ikan.setText("");
         solusi.setText("");
+        deskripsi.setText("");
         jXDatePicker1.setDate(null);
     }
 
@@ -126,33 +128,47 @@ public class riwayat_diagnosis extends javax.swing.JFrame {
 
     private void tampilDetailDiagnosa(String id) {
         try {
-            // Menggunakan LEFT JOIN agar mengambil data dari tabel diagnosa d
-            // dan mencocokkannya dengan deskripsi di tabel penyakit p
-            String sql = "SELECT d.id_diagnosa, d.nama_ikan, d.tanggal_diagnosa, d.solusi, p.deskripsi "
-                       + "FROM diagnosa d "
-                       + "LEFT JOIN penyakit p ON d.kode_penyakit = p.kode_penyakit "
-                       + "WHERE d.id_diagnosa = ?";
+            String sqlDiagnosa = "SELECT id_diagnosa, nama_ikan, tanggal_diagnosa, solusi FROM diagnosa WHERE id_diagnosa = ?";
+            PreparedStatement pstDiagnosa = conn.prepareStatement(sqlDiagnosa);
+            pstDiagnosa.setString(1, id);
+            ResultSet rsDiagnosa = pstDiagnosa.executeQuery();
             
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, id);
-            ResultSet rs = pst.executeQuery();
-            
-            if (rs.next()) {
-                id_diagnosa.setText(rs.getString("id_diagnosa"));
-                nama_ikan.setText(rs.getString("nama_ikan"));
-                jXDatePicker1.setDate(rs.getDate("tanggal_diagnosa"));
-                solusi.setText(rs.getString("solusi"));
-                
-                // Menampilkan deskripsi ke JTextArea deskripsi
-                String teksDeskripsi = rs.getString("deskripsi");
-                
-                // Pengecekan jika teksDeskripsi bernilai null (misal: penyakit tidak ditemukan / lebih dari 1)
-                if (teksDeskripsi != null) {
-                    deskripsi.setText(teksDeskripsi);
-                } else {
-                    deskripsi.setText("Deskripsi tidak tersedia.");
-                }
+            if (rsDiagnosa.next()) {
+                id_diagnosa.setText(rsDiagnosa.getString("id_diagnosa"));
+                nama_ikan.setText(rsDiagnosa.getString("nama_ikan"));
+                jXDatePicker1.setDate(rsDiagnosa.getDate("tanggal_diagnosa"));
+                solusi.setText(rsDiagnosa.getString("solusi"));
             }
+            String sqlDeskripsi = "SELECT hk.nama_penyakit, p.deskripsi "
+                    + "FROM hasil_kemungkinan_diagnosa hk "
+                    + "JOIN penyakit p ON hk.kode_penyakit = p.kode_penyakit "
+                    + "WHERE hk.id_diagnosa = ? ORDER BY hk.kode_penyakit ASC";
+            
+            PreparedStatement pstDeskripsi = conn.prepareStatement(sqlDeskripsi);
+            pstDeskripsi.setString(1, id);
+            ResultSet rsDeskripsi = pstDeskripsi.executeQuery();
+            
+            StringBuilder susunDeskripsi = new StringBuilder();
+            int nomor = 1;
+            
+            // Looping untuk menyusun format teks jika ada 1 atau lebih penyakit
+            while (rsDeskripsi.next()) {
+                String namaPenyakit = rsDeskripsi.getString("nama_penyakit");
+                String isiDeskripsi = rsDeskripsi.getString("deskripsi");
+                
+                // 1. Nama Penyakit
+                //    Deskripsi penyakit
+                susunDeskripsi.append(nomor).append(". ").append(namaPenyakit).append("\n");
+                susunDeskripsi.append("").append(isiDeskripsi).append("\n\n");
+                nomor++;
+            }
+            
+            if (susunDeskripsi.length() > 0) {
+                deskripsi.setText(susunDeskripsi.toString().trim());
+            } else {
+                deskripsi.setText("Penyakit tidak ditemukan / Deskripsi tidak tersedia.");
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal menampilkan detail diagnosa: " + e.getMessage());
         }

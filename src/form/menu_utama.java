@@ -1114,6 +1114,87 @@ public class menu_utama extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lap_ruleActionPerformed
 
+    
+    /*TEST TREN PENYAKIT
+    try {
+            String[] pilihan = {
+                "7 Hari Terakhir",
+                "1 Bulan Terakhir",
+                "1 Tahun Terakhir"
+            };
+            String pilih = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Pilih periode laporan tren penyakit:",
+                    "Cetak Laporan Tren Penyakit",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    pilihan,
+                    pilihan[0]
+            );
+
+            if (pilih == null) {
+                return;
+            }
+
+            String loginId = UserID.getidadmin();
+            String loginadmin = "Tidak Diketahui";
+            try (PreparedStatement nama = conn.prepareStatement(
+                    "SELECT nama_lengkap FROM admin WHERE id_admin = ?"
+            )) {
+                nama.setString(1, loginId);
+                try (ResultSet rsNama = nama.executeQuery()) {
+                    if (rsNama.next()) {
+                        loginadmin = rsNama.getString("nama_lengkap");
+                    }
+                }
+            }
+
+            Calendar cal = Calendar.getInstance();
+            java.sql.Date tanggalAkhir = new java.sql.Date(System.currentTimeMillis());
+            if (pilih.equals("7 Hari Terakhir")) {
+                cal.add(Calendar.DAY_OF_MONTH, -6);
+            } else if (pilih.equals("1 Bulan Terakhir")) {
+                cal.add(Calendar.MONTH, -1);
+            } else if (pilih.equals("1 Tahun Terakhir")) {
+                cal.add(Calendar.YEAR, -1);
+            }
+            java.sql.Date tanggalAwal = new java.sql.Date(cal.getTimeInMillis());
+
+            // Pastikan nama file jasper di bawah ini sesuai dengan file Anda
+            String reportPath = "./src/report/rep_tren_penyakit.jasper";
+
+            HashMap parameter = new HashMap();
+            parameter.put("ADMIN", loginadmin);
+            parameter.put("TGL_AWAL", tanggalAwal);
+            parameter.put("TGL_AKHIR", tanggalAkhir);
+            parameter.put("PERIODE", pilih);
+            parameter.put(JRParameter.REPORT_LOCALE, new Locale("id", "ID"));
+
+            Locale.setDefault(new Locale("id", "ID"));
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, conn);
+
+            if (print.getPages().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Tidak Ada Data Yang Tercatat Pada Periode Yang Dipilih",
+                        "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            form.menu_utama menuUtama = form.menu_utama.getInstance();
+            if (menuUtama != null) {
+                javax.swing.JPanel reportPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+                net.sf.jasperreports.swing.JRViewer viewer = new net.sf.jasperreports.swing.JRViewer(print);
+                reportPanel.add(viewer, java.awt.BorderLayout.CENTER);
+                menuUtama.loadPanel(reportPanel);
+            } else {
+                JasperViewer.viewReport(print, false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mencetak laporan tren: " + e.getMessage());
+            e.printStackTrace();
+        }*/
+    
     /**
      * @param args the command line arguments
      */
