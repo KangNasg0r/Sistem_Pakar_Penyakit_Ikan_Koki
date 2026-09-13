@@ -65,16 +65,12 @@ Sebelum menjalankan proyek, pastikan perangkat telah memiliki:
 6. Jalankan proyek dari NetBeans.
 7. Masuk menggunakan akun demo di bawah ini.
 
-> **Catatan:** Detail nama database, pengguna MySQL, dan lokasi konfigurasi dapat berbeda sesuai struktur source code proyek yang digunakan.
-
 ## Akun Demo
 
 | Field | Nilai |
 | --- | --- |
 | ID Admin | `A01` |
 | Password | `123` |
-
-> Akun ini digunakan untuk demonstrasi. Ganti kredensial tersebut apabila aplikasi akan digunakan di luar lingkungan pengembangan.
 
 ## Dokumentasi Antarmuka
 
